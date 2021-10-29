@@ -1,0 +1,41 @@
+version: '3'
+
+networks:
+  quiz:
+
+services:
+  site:
+    image: library/nginx:stable
+    container_name: quiz_nginx
+    ports:
+      - "62141:80"
+    volumes:
+      - ./:/var/www/html
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+    depends_on:
+      - php
+    networks:
+      - quiz
+  php:
+    build:
+      context: .
+      dockerfile: php.dockerfile
+    container_name: quiz_php
+    volumes:
+      - ./:/var/www/html
+      - ./nginx/php-prod.ini:/usr/local/etc/php/conf.d/php-prod.ini
+    networks:
+      - quiz
+  composer:
+    image: composer:latest
+    container_name: quiz_composer
+    volumes:
+      - ./src:/var/www/html
+    working_dir: /var/www/html
+    depends_on:
+      - php
+    networks:
+      - quiz
+
+
