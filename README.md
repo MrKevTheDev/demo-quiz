@@ -45,8 +45,9 @@ Docker compose sold work however docker on windows is bad.
 
 - `docker-compose run --rm composer update`
 - `docker-compose up -d --build site`
-
-if its not working use
+- `http://localhost:62141/`
+  if its not working use
 
 - `php composer update`
-- `php -S localhost:8000 -t public` 
+- `php -S localhost:8000 -t public`
+- `http://localhost:8000` 
